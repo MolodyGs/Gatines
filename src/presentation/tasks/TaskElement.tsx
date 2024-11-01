@@ -1,9 +1,12 @@
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useRef, useContext } from "react";
+import { useRef, useContext, useState } from "react";
 import { Task } from "../../interfaces/Task";
 import UserContext from "../context/UserContext";
+import styles from "./TaskElement.module.scss";
+// import TaskInfo from "./TaskInfo";
 
-function TaskElement({ title, description, index }: Task) {
+const TaskElement = ({ title, description, index }: Task) => {
+  // const [openTaskInfo, setopenTaskInfo] = useState<boolean>(false);
   const userContext = useContext(UserContext);
   if (!userContext) {
     return <div>Error: Context not available</div>;
@@ -23,17 +26,26 @@ function TaskElement({ title, description, index }: Task) {
     }
   };
 
+  const onOpenTask = () => {
+    // console.log("Task opened");
+    // setopenTaskInfo(true);
+  };
+
   return (
     <>
-      <div ref={task} key={index} className="task">
-        <div className="delete-icon" onClick={onRemoveTask}>
+      <div ref={task} key={index} className={styles.task} onClick={onOpenTask}>
+        <h5>{title}</h5>
+        <div className={styles.deleteIcon} onClick={onRemoveTask}>
           <DeleteIcon />
         </div>
-        <h3>{title}</h3>
-        <p>{"index " + index}</p>
       </div>
+      {/* {openTaskInfo && (
+        <div style={{ position: "relative" }}>
+          <TaskInfo />
+        </div>
+      )} */}
     </>
   );
-}
+};
 
 export default TaskElement;

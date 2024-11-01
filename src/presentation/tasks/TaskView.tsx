@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import TaskElement from "./TaskElement";
 import AddIcon from "@mui/icons-material/Add";
-import "./TaskView.scss";
+import styles from "./TaskView.module.scss";
 import UserContext from "../context/UserContext";
 
 const TaskView = () => {
@@ -27,15 +27,14 @@ const TaskView = () => {
 
   return (
     <>
-      <div className="tasks-section">
-        <div className="title-section">
+      <div className={styles.tasksSection}>
+        <div className={styles.titleSection}>
           <h2>TAREAS</h2>
           <button onClick={onAddTask}>
-            {" "}
             <AddIcon />
           </button>
         </div>
-        <div className="task-list">
+        <div className={styles.taskList}>
           {tasks.map((task) => (
             <TaskElement
               title={task.title}

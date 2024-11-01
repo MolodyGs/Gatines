@@ -1,33 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import './App.scss'
+import TaskView from './presentation/tasks/TaskView'
+import img from './assets/images'
+import { useContext, useEffect } from 'react'
+import UserContext from './presentation/context/UserContext'
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const userContexto = useContext(UserContext);
+  if (!userContexto) {
+    return <div>Error: Context not available</div>;
+  }
+  
+  const { settasks } = userContexto;
+
+  //Get tasks by fetching data from tasks.json file
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  useEffect(() => {
+    fetch('src/data/tasks.json')
+      .then(response => response.json())
+      .then(data => {
+        console.log(data.tasks)
+        settasks(data.tasks)
+      });
+  }, []);
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className='nav-section'>
+        <img className='cat-img' src={img.cat} alt="" />
+        <h1>Gatines :D</h1>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+      <div className='gatines-app'>
+        <TaskView/>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
